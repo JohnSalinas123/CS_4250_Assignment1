@@ -21,10 +21,27 @@ with open('collection.csv', 'r') as csvfile:
          if i > 0:  # skipping the header
             documents.append (row[0])
             labels.append(row[1])
+            
+print(documents)
+
 
 #Conduct stopword removal.
 #--> add your Python code here
 stopWords = {'I', 'and', 'She', 'They', 'her', 'their'}
+
+for i in range(len(documents)):
+  word_list = documents[i].split()
+  for word in word_list:
+    word_low = word.lower()
+    for stop in stopWords:
+      stop_low = stop.lower()
+      if word_low == stop_low:
+        word_list.remove(word)
+  documents[i] = " ".join(word_list)
+  
+print(documents)
+        
+
 
 #Conduct stemming.
 #--> add your Python code here
