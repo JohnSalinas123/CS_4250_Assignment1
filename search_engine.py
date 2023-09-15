@@ -51,6 +51,18 @@ steeming = {
   "loves": "love",
 }
 
+for i in range(len(documents)):
+  word_list = documents[i].split()
+  for w in range(len(word_list)):
+    word_low = word_list[w].lower()
+    if word_low in steeming:
+      word_list[w] = steeming[word_low]
+  documents[i] = " ".join(word_list)
+  
+print(documents)
+
+  
+
 #Identify the index terms.
 #--> add your Python code here
 terms = []
