@@ -129,6 +129,42 @@ print(docMatrix)
 #Calculate the document scores (ranking) using document weigths (tf-idf) calculated before and query weights (binary - have or not the term).
 #--> add your Python code here
 docScores = []
+query = "cats and dogs"
+
+#query stopping
+query_words = query.split()
+left = 0
+while left < len(query_words):
+  query_low1 = query_words[left].lower()
+  for stop in stopWords:
+    stop_low = stop.lower()
+    if query_low1 == stop_low:
+      query_words.remove(stop_low)
+  left += 1
+
+print("Stopped:",query_words)
+
+# query stemming
+for i in range(len(query_words)):
+  query_low2 = query_words[i].lower()
+  if query_low2 in steeming:
+    query_words[i] = steeming[query_low2]
+
+print("Final Query", query_words)
+
+query_binary = []
+
+
+for i in range(len(terms)):
+  if terms[i] in query_words:
+    query_binary.append(1)
+  else:
+    query_binary.append(0)
+
+print(query_binary)
+
+
+
 
 #Calculate the precision and recall of the model by considering that the search engine will return all documents with scores >= 0.1.
 #--> add your Python code here
