@@ -60,6 +60,7 @@ for i in range(len(documents)):
   documents[i] = " ".join(word_list)
   
 print("Documents",documents)
+print()
 
   
 
@@ -108,8 +109,6 @@ def calcIDF(word):
 for i in range(len(documents)):
   new_row = [0 for i in range(len(terms))]
   docMatrix.append(new_row)
-  
-#print(docMatrix)
 
 
 for i in range(len(documents)):
@@ -121,7 +120,9 @@ for i in range(len(documents)):
     #print(row_tf)
     docMatrix[j][i] = round(col_idf * row_tf,4)
     
-print(docMatrix)
+for i in range(len(docMatrix)):
+  print(docMatrix[i])
+print()
   
   
 
@@ -142,15 +143,14 @@ while left < len(query_words):
       query_words.remove(stop_low)
   left += 1
 
-print("Stopped:",query_words)
-
 # query stemming
 for i in range(len(query_words)):
   query_low2 = query_words[i].lower()
   if query_low2 in steeming:
     query_words[i] = steeming[query_low2]
 
-print("Final Query", query_words)
+print(query_words)
+print()
 
 query_binary = []
 
@@ -162,8 +162,40 @@ for i in range(len(terms)):
     query_binary.append(0)
 
 print(query_binary)
+print()
 
+for i in range(len(documents)):
+  sum = 0
+  for j in range(len(terms)):
+    sum += docMatrix[i][j]* query_binary[j]
+  docScores.append(sum)
 
+print("Document Scores")
+for i in range(len(documents)):
+  print("Doc",i + 1,":", docScores[i])
+print()
+  
+retrived_rel = 0
+retrived_irrel = 0
+for i in range(len(docScores)):
+  if docScores[i] >= 0.1:
+    retrived_rel += 1
+  elif docScores[i] > 0 and docScores[i] < 0.1:
+    retrived_irrel += 1
+    
+recall = round((retrived_rel/(retrived_rel + 0))*100,2)
+precision = round((retrived_rel/(retrived_rel + retrived_irrel))*100,2)
+
+print("Recall:", recall, "%")
+print("Precision:",precision,"%" )
+
+'''
+              Relevant  Irrelevant
+Retrived      2         1
+Not Retrieve  0         0
+Recall = [2/2] * 100% = 100%
+Precision = [2/3] * 100% = 66.66%
+'''
 
 
 #Calculate the precision and recall of the model by considering that the search engine will return all documents with scores >= 0.1.
